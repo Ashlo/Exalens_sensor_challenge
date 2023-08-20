@@ -1,0 +1,3 @@
+BROKER="localhost"
+PORT=1883
+TIMEOUT=60

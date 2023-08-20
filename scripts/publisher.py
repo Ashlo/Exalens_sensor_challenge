@@ -3,6 +3,7 @@ import json
 import time
 from datetime import datetime
 import random
+from constants import BROKER,PORT,TIMEOUT
 
 def generate_sensor_data(sensor_type):
     try:
@@ -40,7 +41,7 @@ client.on_connect = on_connect
 client.on_publish = on_publish
 
 # Connection
-client.connect("localhost",1883,60)
+client.connect(BROKER,PORT,TIMEOUT)
 client.loop_start()
 
 #publish loop
