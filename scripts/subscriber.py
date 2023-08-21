@@ -2,6 +2,9 @@ import paho.mqtt.client as mqtt
 import json
 from constants import BROKER,PORT,TIMEOUT,MONGO_URL,DATABASE_NAME,COLLECTION_NAME
 from pymongo import MongoClient
+from datetime import datetime
+
+#TODO Redis implementation
 
 # Connect to the MongoDB server
 mongo_client = MongoClient(MONGO_URL)
@@ -18,17 +21,14 @@ def on_connect(client,userdata,flags,rc):
 
 def on_message(client,userdata,msg):
     try:
-        print(msg.topic,msg.payload.decode('utf-8'))
-        data = json.loads(msg.payload)
+        payload_dict = json.loads(msg.payload.decode('utf-8'))
 
-        #TODO Mongo_json final structure
         mongo_json = {
-        "topic": msg.topic,
-        "message": msg.payload.decode()
-        }
+            "topic": msg.topic,
+            **payload_dict
+            }
 
         collection.insert_one(mongo_json)
-        print(f"Recieved data from {data['sensor_id']:}:{data['value']} at {data['timestamp']}")
     except Exception as e:
         print(e)
 
