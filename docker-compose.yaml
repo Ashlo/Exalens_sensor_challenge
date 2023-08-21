@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   mosquitto:
     build:
@@ -22,6 +24,19 @@ services:
         protocol: tcp
         mode: host
 
+  mongo:
+    image: mongo:latest
+    container_name: mongodb_container
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: rootuser
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
 volumes:
   data:
     name: "mqtt-broker-data"
+  mongo-data:
+
