@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 
 services:
   mosquitto:
@@ -12,7 +12,7 @@ services:
         source: ./log/
         target: /mosquitto/log/
       - type: volume
-        source: data
+        source: mqtt-broker-data
         target: /mosquitto/data/
     ports:
       - target: 1883
@@ -35,8 +35,18 @@ services:
     volumes:
       - mongo-data:/data/db
 
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes: 
+      - cache:/data
+
 volumes:
-  data:
+  mqtt-broker-data:
     name: "mqtt-broker-data"
   mongo-data:
-
+  cache:
+    driver: local
