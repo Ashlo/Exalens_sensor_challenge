@@ -1,19 +1,19 @@
 import paho.mqtt.client as mqtt
 import json
 from constants import BROKER,PORT,TIMEOUT,MONGO_URL,DATABASE_NAME,COLLECTION_NAME
-from pymongo import MongoClient
 from bson.objectid import ObjectId
-from datetime import datetime
-import redis
+from scripts.connect.redis_singleton import RedisWrapper
+from scripts.connect.mongo_wrapper import MongoWrapper
 
 # Connect to the local Redis instance
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0, password='eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81')
+
+redis_wrapper = RedisWrapper()
+redis_client = redis_wrapper.redis_client
 #TODO Redis implementation
 
 # Connect to the MongoDB server
-mongo_client = MongoClient(MONGO_URL)
-db = mongo_client[DATABASE_NAME]
-collection = db[COLLECTION_NAME]
+mongo_wrapper = MongoWrapper()
+collection = mongo_wrapper.collection
 
 
 def jsonify_mongo_data(data):
