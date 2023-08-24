@@ -2,8 +2,8 @@ import paho.mqtt.client as mqtt
 import json
 from constants import BROKER,PORT,TIMEOUT,MONGO_URL,DATABASE_NAME,COLLECTION_NAME
 from bson.objectid import ObjectId
-from scripts.connect.redis_singleton import RedisWrapper
-from scripts.connect.mongo_wrapper import MongoWrapper
+from connect.redis_singleton import RedisWrapper
+from connect.mongo_wrapper import MongoWrapper
 
 # Connect to the local Redis instance
 
