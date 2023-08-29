@@ -44,6 +44,32 @@ services:
     volumes: 
       - cache:/data
 
+  mqtt_publisher:
+    build:
+      context: .
+      dockerfile: ./scripts/publisher/Dockerfile
+    depends_on:
+      - mosquitto
+
+  mqtt_subscriber:
+    build:
+      context: .
+      dockerfile: ./scripts/subscriber/Dockerfile
+    depends_on:
+      - mosquitto
+      - mongo
+      - cache
+
+  fastapi_app:
+    build:
+      context: .
+      dockerfile: ./scripts/fastapi/Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+      - cache
+
 volumes:
   mqtt-broker-data:
     name: "mqtt-broker-data"
